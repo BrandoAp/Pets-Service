@@ -1,7 +1,8 @@
 package com.abdelsx.Pets_Services.controller;
 
 import com.abdelsx.Pets_Services.model.Mascota;
-import com.abdelsx.Pets_Services.repository.MascotaRepository;
+import com.abdelsx.Pets_Services.service.MascotaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,20 +10,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/mascotas")
 public class MascotaController {
+    private final MascotaService mascotaService;
 
-    private final MascotaRepository mascotaRepository;
+    @Autowired
+    public MascotaController(MascotaService mascotaService){
+        this.mascotaService = mascotaService;
+    }
+    @GetMapping("/listAllPets")
+    public List<Mascota> getAllPets(){
+        return mascotaService.getAllPets();
+    }
 
-     public MascotaController (MascotaRepository mascotaRepository){
-         this.mascotaRepository = mascotaRepository;
-     }
-
-     @GetMapping ("/listPets")
-    public List<Mascota> listarMascotas(){
-         return mascotaRepository.findAll();
-     }
-
-     @PostMapping ("/addPets")
-    public Mascota agregarMascota (@RequestBody Mascota mascota){
-         return mascotaRepository.save(mascota);
-     }
 }

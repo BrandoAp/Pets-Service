@@ -15,6 +15,10 @@ public class Mascota {
     private String raza;
     private int edad;
 
+    public Mascota(){
+
+    }
+
     public Mascota (String nombre, String raza, int edad){
         this.nombre = nombre;
         this.raza = raza;

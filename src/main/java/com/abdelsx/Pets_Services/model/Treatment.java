@@ -12,9 +12,7 @@ public class Treatment {
     @Column (nullable = false)
     private float priceTreatment;
 
-    public Treatment(){
-
-    }
+    public Treatment(){}
 
     public Treatment (String NameTreatment, float priceTreatment){
         this.NameTreatment = NameTreatment;

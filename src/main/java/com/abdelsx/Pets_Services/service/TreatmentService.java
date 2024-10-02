@@ -6,29 +6,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TreatmentService {
-    @Autowired
-    private final TreatmentRepository treatmentRepository;
+   private final TreatmentRepository treatmentRepository;
 
-    public TreatmentService(TreatmentRepository treatmentRepository){
-        this.treatmentRepository = treatmentRepository;
-    }
+   @Autowired
+    public TreatmentService (TreatmentRepository treatmentRepository){
+       this.treatmentRepository = treatmentRepository;
+   }
 
-    public Treatment addTreatment (Treatment treatment){
-        return treatmentRepository.save(treatment);
-    }
+   public List <Treatment> getAllTreatments(){
+       return treatmentRepository.findAll();
+   }
 
-    public List<Treatment> getAllTreatments(){
-        return treatmentRepository.findAll();
-    }
-
-    public List<Treatment> getTreatmentByPrice(float priceTreatment){
-        return treatmentRepository.findByPrice(priceTreatment);
-    }
-    public void deleteTreatmentByName(String nameTreatment){
-        treatmentRepository.deleteByNameTreatment(nameTreatment);
-    }
+   public Treatment createTreatment (Treatment treatment){
+       return treatmentRepository.save(treatment);
+   }
+   public Treatment updateTreatment (Long id, Treatment updatedTreatment){
+       Optional<Treatment> existingTreatment = treatmentRepository.findById(id);
+       if (existingTreatment.isPresent()){
+           Treatment treatment = existingTreatment.get();
+           treatment.setNameTreatment(updatedTreatment.getNameTreatment());
+           treatment.setPriceTreatment(updatedTreatment.getPriceTreatment());
+           return treatmentRepository.save(treatment);
+       } else {
+           throw new IllegalArgumentException("El tratamiento con el ID " + id + " no existe.");
+       }
+   }
+   public void deleteTreatment (Long id){
+       treatmentRepository.deleteById(id);
+   }
 
 }

@@ -13,14 +13,20 @@ import java.util.logging.Logger;
 public class MascotaService{
     private static final Logger LOGGER = Logger.getLogger(ClassName.class.getName());
 
-    @Autowired
     private final MascotaRepository mascotaRepository;
 
+    @Autowired
     public MascotaService (MascotaRepository mascotaRepository){
         this.mascotaRepository = mascotaRepository;
     }
 
     public Mascota addPets (Mascota mascota){
+        if (mascota.getNombre() == null || mascota.getNombre().trim().isEmpty())
+            throw new IllegalArgumentException("Pet name cannot be empty");
+        if (mascota.getEdad()<0)
+            throw new IllegalArgumentException("Pet age cannot be negative");
+        if (mascota.getRaza() == null || mascota.getRaza().trim().isEmpty())
+            throw new IllegalArgumentException("Pet raza cannot be empty");
         return mascotaRepository.save(mascota);
     }
 
@@ -29,9 +35,14 @@ public class MascotaService{
     }
 
     public List <Mascota> findByName(String namePet){
+        if (namePet.isEmpty())
+            LOGGER.info("The pet name cannot be empty");
         return mascotaRepository.findByNombre(namePet);
     }
+
     public void deleteByName (String namePet){
+        if (namePet.isEmpty())
+            throw new IllegalArgumentException("Pet name cannot be empty");
         mascotaRepository.deleteByNombre(namePet);
     }
 }

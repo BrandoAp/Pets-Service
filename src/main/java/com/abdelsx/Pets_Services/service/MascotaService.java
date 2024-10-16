@@ -1,6 +1,6 @@
 package com.abdelsx.Pets_Services.service;
 
-import com.abdelsx.Pets_Services.model.Mascota;
+import com.abdelsx.Pets_Services.model  .Mascota;
 import com.abdelsx.Pets_Services.repository.MascotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
@@ -27,6 +27,7 @@ public class MascotaService{
             throw new IllegalArgumentException("Pet age cannot be negative");
         if (mascota.getRaza() == null || mascota.getRaza().trim().isEmpty())
             throw new IllegalArgumentException("Pet raza cannot be empty");
+        LOGGER.info("Pet adding successfully");
         return mascotaRepository.save(mascota);
     }
 
@@ -35,8 +36,12 @@ public class MascotaService{
     }
 
     public List <Mascota> findByName(String namePet){
-        if (namePet.isEmpty())
-            LOGGER.info("The pet name cannot be empty");
+        try{
+            if (namePet.isEmpty())
+                LOGGER.info("The pet name cannot be empty");
+        } catch (IllegalArgumentException e){
+            LOGGER.warning(e.getMessage());
+        }
         return mascotaRepository.findByNombre(namePet);
     }
 

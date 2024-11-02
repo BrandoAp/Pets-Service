@@ -36,8 +36,17 @@ public class MascotaController {
     }
 
     @PostMapping("/deletePet")
-    public void deletePet(@RequestParam String namePet){
+    public String deletePet(@RequestParam String namePet){
         mascotaService.deleteByName(namePet);
+        return "The pet named " + namePet + " has been successfully deleted";
+    }
+
+    @PostMapping("/updatePet")
+    public @ResponseBody String updatePetName(@RequestParam Long id, @RequestParam String newNamePet){
+        Mascota updatePet = new Mascota();
+        updatePet.setNombre(newNamePet);
+        mascotaService.updatePet(id, updatePet);
+        return "Pet updated successfully";
     }
 
 }

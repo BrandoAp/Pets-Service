@@ -12,6 +12,8 @@ public class Stores {
     @Column (nullable = false)
     private String nameOfTheStore;
 
+    public Stores () {}
+
     public Stores (String directionOfTheStore, String nameOfTheStore){
         this.directionOfTheStore = directionOfTheStore;
         this.nameOfTheStore = nameOfTheStore;

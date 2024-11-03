@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface StoresRepository extends JpaRepository<Stores, Long> {
     List<Stores> findBydirectionOfTheStore(String directionOfTheStore);
+    boolean existsByDirectionOfTheStore(String directionOfTheStore);
 }
